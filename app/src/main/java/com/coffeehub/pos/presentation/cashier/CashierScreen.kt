@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.launch
 import com.brewpoint.pos.R
 import com.coffeehub.pos.domain.model.OrderType
 import com.coffeehub.pos.domain.model.Product
@@ -42,11 +43,20 @@ fun CashierScreen(
     val isCompact = windowSizeClass.isCompact()
     var selectedTab by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(cartState.lastOrderId) {
-        if (cartState.lastOrderId != null) onNavigateToPayment()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val itemAddedMsg = stringResource(R.string.item_added_to_cart)
+
+    val handleAddToCart: (Product) -> Unit = { product ->
+        cartViewModel.addProduct(product)
+        scope.launch {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            snackbarHostState.showSnackbar(message = itemAddedMsg, duration = SnackbarDuration.Short)
+        }
     }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.cashier), fontWeight = FontWeight.Bold) },
@@ -82,7 +92,7 @@ fun CashierScreen(
                 }
                 when (selectedTab) {
                     0 -> MenuPanel(cashierState = cashierState, onCategorySelect = cashierViewModel::selectCategory,
-                        onSearch = cashierViewModel::onSearch, onAddToCart = cartViewModel::addProduct, columns = 2)
+                        onSearch = cashierViewModel::onSearch, onAddToCart = handleAddToCart, columns = 2)
                     1 -> CartPanel(cartState = cartState, onIncrease = cartViewModel::increaseQuantity,
                         onDecrease = cartViewModel::decreaseQuantity, onRemove = cartViewModel::removeItem,
                         onClear = cartViewModel::clearCart, onCheckout = onNavigateToPayment)
@@ -92,7 +102,7 @@ fun CashierScreen(
             Row(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
                 Box(modifier = Modifier.weight(1.5f).fillMaxHeight()) {
                     MenuPanel(cashierState = cashierState, onCategorySelect = cashierViewModel::selectCategory,
-                        onSearch = cashierViewModel::onSearch, onAddToCart = cartViewModel::addProduct,
+                        onSearch = cashierViewModel::onSearch, onAddToCart = handleAddToCart,
                         columns = windowSizeClass.getGridColumns())
                 }
                 VerticalDivider()

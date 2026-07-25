@@ -58,6 +58,7 @@
     <string name="discount">Discount</string>
     <string name="total">Total</string>
     <string name="proceed_to_payment">Proceed to Payment</string>
+    <string name="item_added_to_cart">Item added to cart</string>
 
     <!-- Payment -->
     <string name="payment">Payment</string>

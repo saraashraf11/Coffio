@@ -47,12 +47,10 @@ class PaymentViewModel @Inject constructor(
 
     fun processPayment(cartViewModel: CartViewModel) {
         val state = _uiState.value
-        _uiState.update { it.copy(isProcessing = true) }
         cartViewModel.placeOrder(
             paymentMethod = state.selectedMethod,
             cashierName = state.cashierName,
             cashReceived = state.cashReceived.toDoubleOrNull() ?: 0.0
         )
-        _uiState.update { it.copy(isProcessing = false, isSuccess = true) }
     }
 }

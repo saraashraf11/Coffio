@@ -58,6 +58,7 @@
     <string name="discount">خصم</string>
     <string name="total">الإجمالي</string>
     <string name="proceed_to_payment">متابعة للدفع</string>
+    <string name="item_added_to_cart">تم إضافة المنتج للسلة</string>
 
     <!-- Payment -->
     <string name="payment">الدفع</string>

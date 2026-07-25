@@ -42,8 +42,11 @@ fun PaymentScreen(
     val paymentState by paymentViewModel.uiState.collectAsState()
     val cartState by cartViewModel.uiState.collectAsState()
 
-    LaunchedEffect(paymentState.isSuccess) {
-        if (paymentState.isSuccess) onPaymentComplete()
+    LaunchedEffect(cartState.lastOrderId) {
+        if (cartState.lastOrderId != null) {
+            cartViewModel.clearCart()
+            onPaymentComplete()
+        }
     }
 
     Scaffold(

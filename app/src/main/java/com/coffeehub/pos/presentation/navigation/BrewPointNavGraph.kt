@@ -2,10 +2,12 @@ package com.coffeehub.pos.presentation.navigation
 
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import androidx.navigation.navArgument
 import com.coffeehub.pos.presentation.auth.LoginScreen
 import com.coffeehub.pos.presentation.cashier.CashierScreen
@@ -37,100 +39,122 @@ fun BrewPointNavGraph(windowSizeClass: WindowSizeClass) {
                 }
             )
         }
-
+        
         composable(Screen.Dashboard.route) {
-            DashboardScreen(
-                windowSizeClass = windowSizeClass,
-                onNavigateTo = { route -> navController.navigate(route) },
-                onLogout = {
-                    navController.navigate(Screen.Login.route) {
-                        popUpTo(0) { inclusive = true }
+                DashboardScreen(
+                    windowSizeClass = windowSizeClass,
+                    onNavigateTo = { route -> navController.navigate(route) },
+                    onLogout = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
+                )
+            }
+
+            composable(Screen.Menu.route) {
+                MenuScreen(
+                    windowSizeClass = windowSizeClass,
+                    onAddProduct = { navController.navigate(Screen.AddEditProduct.createRoute()) },
+                    onEditProduct = { id ->
+                        navController.navigate(
+                            Screen.AddEditProduct.createRoute(
+                                id
+                            )
+                        )
+                    },
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(
+                route = Screen.AddEditProduct.route,
+                arguments = listOf(navArgument("productId") {
+                    type = NavType.IntType; defaultValue = -1
+                })
+            ) { backStackEntry ->
+                val productId = backStackEntry.arguments?.getInt("productId")?.takeIf { it != -1 }
+                AddEditProductScreen(
+                    productId = productId,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(Screen.Orders.route) {
+                OrdersScreen(
+                    windowSizeClass = windowSizeClass,
+                    onOrderClick = { id -> navController.navigate(Screen.OrderDetail.createRoute(id)) },
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(
+                route = Screen.OrderDetail.route,
+                arguments = listOf(navArgument("orderId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val orderId = backStackEntry.arguments?.getInt("orderId") ?: return@composable
+                OrderDetailScreen(
+                    orderId = orderId,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            navigation(startDestination = Screen.Cashier.route, route = "checkout_flow") {
+                composable(Screen.Cashier.route) { backStackEntry ->
+                    val parentEntry = remember(backStackEntry) {
+                        navController.getBackStackEntry("checkout_flow")
+                    }
+                    val cartViewModel: com.coffeehub.pos.presentation.cart.CartViewModel =
+                        androidx.hilt.navigation.compose.hiltViewModel(parentEntry)
+
+                    CashierScreen(
+                        windowSizeClass = windowSizeClass,
+                        onNavigateToPayment = { navController.navigate(Screen.Payment.route) },
+                        onNavigateBack = { navController.popBackStack() },
+                        cartViewModel = cartViewModel
+                    )
                 }
-            )
-        }
 
-        composable(Screen.Cashier.route) {
-            CashierScreen(
-                windowSizeClass = windowSizeClass,
-                onNavigateToPayment = { navController.navigate(Screen.Payment.route) },
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-
-        composable(Screen.Menu.route) {
-            MenuScreen(
-                windowSizeClass = windowSizeClass,
-                onAddProduct = { navController.navigate(Screen.AddEditProduct.createRoute()) },
-                onEditProduct = { id -> navController.navigate(Screen.AddEditProduct.createRoute(id)) },
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-
-        composable(
-            route = Screen.AddEditProduct.route,
-            arguments = listOf(navArgument("productId") {
-                type = NavType.IntType; defaultValue = -1
-            })
-        ) { backStackEntry ->
-            val productId = backStackEntry.arguments?.getInt("productId")?.takeIf { it != -1 }
-            AddEditProductScreen(
-                productId = productId,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-
-        composable(Screen.Orders.route) {
-            OrdersScreen(
-                windowSizeClass = windowSizeClass,
-                onOrderClick = { id -> navController.navigate(Screen.OrderDetail.createRoute(id)) },
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-
-        composable(
-            route = Screen.OrderDetail.route,
-            arguments = listOf(navArgument("orderId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val orderId = backStackEntry.arguments?.getInt("orderId") ?: return@composable
-            OrderDetailScreen(
-                orderId = orderId,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-
-        composable(Screen.Payment.route) {
-            PaymentScreen(
-                onPaymentComplete = {
-                    navController.navigate(Screen.Dashboard.route) {
-                        popUpTo(Screen.Cashier.route) { inclusive = true }
+                composable(Screen.Payment.route) { backStackEntry ->
+                    val parentEntry = remember(backStackEntry) {
+                        navController.getBackStackEntry("checkout_flow")
                     }
-                },
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
+                    val cartViewModel: com.coffeehub.pos.presentation.cart.CartViewModel =
+                        androidx.hilt.navigation.compose.hiltViewModel(parentEntry)
 
-        composable(Screen.Customers.route) {
-            CustomersScreen(
-                windowSizeClass = windowSizeClass,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
+                    PaymentScreen(
+                        onPaymentComplete = {
+                            navController.navigate(Screen.Dashboard.route) {
+                                popUpTo("checkout_flow") { inclusive = true }
+                            }
+                        },
+                        onNavigateBack = { navController.popBackStack() },
+                        cartViewModel = cartViewModel
+                    )
+                }
+            }
 
-        composable(Screen.Tables.route) {
-            TablesScreen(
-                windowSizeClass = windowSizeClass,
-                onTableSelected = { navController.navigate(Screen.Cashier.route) },
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
+            composable(Screen.Customers.route) {
+                CustomersScreen(
+                    windowSizeClass = windowSizeClass,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
 
-        composable(Screen.Reports.route) {
-            ReportsScreen(
-                windowSizeClass = windowSizeClass,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
+            composable(Screen.Tables.route) {
+                TablesScreen(
+                    windowSizeClass = windowSizeClass,
+                    onTableSelected = { navController.navigate(Screen.Cashier.route) },
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(Screen.Reports.route) {
+                ReportsScreen(
+                    windowSizeClass = windowSizeClass,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
 
         composable(Screen.Settings.route) {
             SettingsScreen(
