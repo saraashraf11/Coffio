@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">BrewPoint POS</string>
+    <string name="app_subtitle">نقطة البيع</string>
+
+    <!-- Common -->
+    <string name="back">رجوع</string>
+    <string name="save">حفظ</string>
+    <string name="cancel">إلغاء</string>
+    <string name="edit">تعديل</string>
+    <string name="delete">حذف</string>
+    <string name="search">بحث</string>
+    <string name="loading">جاري التحميل…</string>
+    <string name="settings">الإعدادات</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="all">الكل</string>
+
+    <!-- Login -->
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="enter_credentials">أدخل بياناتك للمتابعة</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="password">كلمة المرور</string>
+    <string name="toggle_password">إظهار/إخفاء كلمة المرور</string>
+    <string name="demo_hint">تجريبي: manager / manager123</string>
+
+    <!-- Dashboard -->
+    <string name="good_day">أهلاً، %s</string>
+    <string name="today_revenue">إيرادات اليوم</string>
+    <string name="total_orders">إجمالي الطلبات</string>
+    <string name="active_orders">الطلبات النشطة</string>
+    <string name="avg_order">متوسط الطلب</string>
+    <string name="recent_orders">الطلبات الأخيرة</string>
+    <string name="quick_actions">إجراءات سريعة</string>
+    <string name="new_order">طلب جديد</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_cashier">الكاشير</string>
+    <string name="nav_orders">الطلبات</string>
+    <string name="nav_reports">التقارير</string>
+    <string name="nav_settings">الإعدادات</string>
+    <string name="nav_menu">القائمة</string>
+    <string name="nav_tables">الطاولات</string>
+    <string name="nav_customers">العملاء</string>
+    <string name="nav_dashboard">لوحة التحكم</string>
+
+    <!-- Cashier -->
+    <string name="cashier">الكاشير</string>
+    <string name="search_products">بحث…</string>
+    <string name="cart_tab">السلة (%d)</string>
+    <string name="menu_tab">القائمة</string>
+    <string name="current_order">الطلب الحالي</string>
+    <string name="clear_all">مسح الكل</string>
+    <string name="cart_empty">السلة فارغة</string>
+    <string name="subtotal">المجموع الفرعي</string>
+    <string name="tax">الضريبة (%d%%)</string>
+    <string name="discount">خصم</string>
+    <string name="total">الإجمالي</string>
+    <string name="proceed_to_payment">متابعة للدفع</string>
+
+    <!-- Payment -->
+    <string name="payment">الدفع</string>
+    <string name="total_amount">المبلغ الإجمالي</string>
+    <string name="items_count">%d عناصر</string>
+    <string name="payment_method">طريقة الدفع</string>
+    <string name="cash">نقدي</string>
+    <string name="card">بطاقة</string>
+    <string name="qr">QR</string>
+    <string name="cash_payment">الدفع النقدي</string>
+    <string name="cash_received">المبلغ المستلم</string>
+    <string name="change">الباقي</string>
+    <string name="confirm_payment">تأكيد الدفع · %s</string>
+
+    <!-- Orders -->
+    <string name="orders">الطلبات</string>
+    <string name="search_orders">بحث في الطلبات…</string>
+    <string name="no_orders_title">لا توجد طلبات</string>
+    <string name="no_orders_subtitle">ستظهر الطلبات هنا بعد إنشائها</string>
+
+    <!-- Tables -->
+    <string name="tables">الطاولات</string>
+    <string name="table_number">طاولة %d</string>
+    <string name="seats">%d مقاعد</string>
+    <string name="available">متاحة</string>
+    <string name="occupied">مشغولة</string>
+    <string name="reserved">محجوزة</string>
+    <string name="cleaning">قيد التنظيف</string>
+
+    <!-- Customers -->
+    <string name="customers">العملاء</string>
+    <string name="add_customer">إضافة عميل</string>
+    <string name="search_customers">بحث في العملاء…</string>
+    <string name="no_customers_title">لا يوجد عملاء بعد</string>
+    <string name="no_customers_subtitle">أضف أول عميل لبدء تتبع النقاط</string>
+    <string name="edit_customer">تعديل بيانات العميل</string>
+    <string name="new_customer">عميل جديد</string>
+    <string name="name_required">الاسم *</string>
+    <string name="phone">الهاتف</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="notes">ملاحظات</string>
+    <string name="pts">%d نقطة</string>
+    <string name="total_spend">%s إجمالي</string>
+
+    <!-- Reports -->
+    <string name="reports">التقارير والتحليلات</string>
+    <string name="total_revenue">إجمالي الإيرادات</string>
+    <string name="avg_order_value">متوسط الطلب</string>
+    <string name="top_category">أفضل فئة</string>
+    <string name="revenue_by_category">الإيرادات حسب الفئة</string>
+    <string name="top_products">أكثر المنتجات مبيعاً</string>
+    <string name="payment_methods">طرق الدفع</string>
+    <string name="percent_of_total">%d%% من الإجمالي</string>
+    <string name="sold_count">%d مباع</string>
+    <string name="no_data">لا تتوفر بيانات</string>
+
+    <!-- Settings -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="shop_configuration">إعدادات المتجر</string>
+    <string name="shop_name">اسم المتجر</string>
+    <string name="tax_rate">نسبة الضريبة (%%)</string>
+    <string name="appearance_language">المظهر واللغة</string>
+    <string name="dark_theme">الوضع الداكن</string>
+    <string name="dark_theme_subtitle">استخدام المظهر الداكن</string>
+    <string name="language">اللغة</string>
+    <string name="language_subtitle">عربي / English</string>
+    <string name="about">حول التطبيق</string>
+    <string name="version">الإصدار</string>
+    <string name="app_label">التطبيق</string>
+
+    <!-- Menu -->
+    <string name="menu">القائمة</string>
+    <string name="add_product">إضافة منتج</string>
+    <string name="search_menu">بحث في القائمة…</string>
+    <string name="no_products_title">لا توجد منتجات</string>
+    <string name="no_products_subtitle">أضف منتجات إلى القائمة</string>
+</resources>

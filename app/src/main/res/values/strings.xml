@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">BrewPoint POS</string>
+    <string name="app_subtitle">Point of Sale</string>
+
+    <!-- Common -->
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="search">Search</string>
+    <string name="loading">Loading…</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Sign Out</string>
+    <string name="all">All</string>
+
+    <!-- Login -->
+    <string name="sign_in">Sign In</string>
+    <string name="enter_credentials">Enter your credentials to continue</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="toggle_password">Toggle password</string>
+    <string name="demo_hint">Demo: manager / manager123</string>
+
+    <!-- Dashboard -->
+    <string name="good_day">Good day, %s</string>
+    <string name="today_revenue">Today\'s Revenue</string>
+    <string name="total_orders">Total Orders</string>
+    <string name="active_orders">Active Orders</string>
+    <string name="avg_order">Avg. Order</string>
+    <string name="recent_orders">Recent Orders</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="new_order">New Order</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_cashier">Cashier</string>
+    <string name="nav_orders">Orders</string>
+    <string name="nav_reports">Reports</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_menu">Menu</string>
+    <string name="nav_tables">Tables</string>
+    <string name="nav_customers">Customers</string>
+    <string name="nav_dashboard">Dashboard</string>
+
+    <!-- Cashier -->
+    <string name="cashier">Cashier</string>
+    <string name="search_products">Search…</string>
+    <string name="cart_tab">Cart (%d)</string>
+    <string name="menu_tab">Menu</string>
+    <string name="current_order">Current Order</string>
+    <string name="clear_all">Clear All</string>
+    <string name="cart_empty">Cart is empty</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="tax">Tax (%d%%)</string>
+    <string name="discount">Discount</string>
+    <string name="total">Total</string>
+    <string name="proceed_to_payment">Proceed to Payment</string>
+
+    <!-- Payment -->
+    <string name="payment">Payment</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="items_count">%d items</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="cash">Cash</string>
+    <string name="card">Card</string>
+    <string name="qr">QR</string>
+    <string name="cash_payment">Cash Payment</string>
+    <string name="cash_received">Cash Received</string>
+    <string name="change">Change</string>
+    <string name="confirm_payment">Confirm Payment · %s</string>
+
+    <!-- Orders -->
+    <string name="orders">Orders</string>
+    <string name="search_orders">Search orders…</string>
+    <string name="no_orders_title">No orders found</string>
+    <string name="no_orders_subtitle">Orders will appear here once placed</string>
+
+    <!-- Tables -->
+    <string name="tables">Tables</string>
+    <string name="table_number">Table %d</string>
+    <string name="seats">%d seats</string>
+    <string name="available">Available</string>
+    <string name="occupied">Occupied</string>
+    <string name="reserved">Reserved</string>
+    <string name="cleaning">Cleaning</string>
+
+    <!-- Customers -->
+    <string name="customers">Customers</string>
+    <string name="add_customer">Add Customer</string>
+    <string name="search_customers">Search customers…</string>
+    <string name="no_customers_title">No customers yet</string>
+    <string name="no_customers_subtitle">Add your first customer to start tracking loyalty</string>
+    <string name="edit_customer">Edit Customer</string>
+    <string name="new_customer">New Customer</string>
+    <string name="name_required">Name *</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="notes">Notes</string>
+    <string name="pts">%d pts</string>
+    <string name="total_spend">%s total</string>
+
+    <!-- Reports -->
+    <string name="reports">Reports &amp; Analytics</string>
+    <string name="total_revenue">Total Revenue</string>
+    <string name="avg_order_value">Avg. Order</string>
+    <string name="top_category">Top Category</string>
+    <string name="revenue_by_category">Revenue by Category</string>
+    <string name="top_products">Top Selling Products</string>
+    <string name="payment_methods">Payment Methods</string>
+    <string name="percent_of_total">%d%% of total</string>
+    <string name="sold_count">%d sold</string>
+    <string name="no_data">No data available</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="shop_configuration">Shop Configuration</string>
+    <string name="shop_name">Shop Name</string>
+    <string name="tax_rate">Tax Rate (%%)</string>
+    <string name="appearance_language">Appearance &amp; Language</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="dark_theme_subtitle">Use dark coffee shop theme</string>
+    <string name="language">Language</string>
+    <string name="language_subtitle">English / عربي</string>
+    <string name="about">About</string>
+    <string name="version">Version</string>
+    <string name="app_label">App</string>
+
+    <!-- Menu -->
+    <string name="menu">Menu</string>
+    <string name="add_product">Add Product</string>
+    <string name="search_menu">Search menu…</string>
+    <string name="no_products_title">No products found</string>
+    <string name="no_products_subtitle">Add products to your menu</string>
+</resources>
