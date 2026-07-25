@@ -8,15 +8,22 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface OrderDao {
+
+    // ─── Main CRUD ────────────────────────────────────────────────────────────
+
+    @Transaction
     @Query("SELECT * FROM orders ORDER BY createdAt DESC")
     fun getAllOrders(): Flow<List<OrderWithItems>>
 
+    @Transaction
     @Query("SELECT * FROM orders WHERE status = :status ORDER BY createdAt DESC")
     fun getOrdersByStatus(status: String): Flow<List<OrderWithItems>>
 
+    @Transaction
     @Query("SELECT * FROM orders WHERE status IN ('PENDING','IN_PROGRESS','READY') ORDER BY createdAt ASC")
     fun getActiveOrders(): Flow<List<OrderWithItems>>
 
+    @Transaction
     @Query("SELECT * FROM orders WHERE createdAt >= :startTime AND createdAt <= :endTime ORDER BY createdAt DESC")
     fun getOrdersByDateRange(startTime: Long, endTime: Long): Flow<List<OrderWithItems>>
 
@@ -36,9 +43,50 @@ interface OrderDao {
     @Delete
     suspend fun deleteOrder(order: OrderEntity)
 
+    // ─── Aggregates ───────────────────────────────────────────────────────────
+
     @Query("SELECT COALESCE(SUM(total), 0.0) FROM orders WHERE status = 'COMPLETED' AND createdAt >= :startOfDay")
     suspend fun getTodayRevenue(startOfDay: Long): Double
 
     @Query("SELECT COUNT(*) FROM orders WHERE createdAt >= :startOfDay")
     suspend fun getTodayOrderCount(startOfDay: Long): Int
+
+    // ─── Reporting JOIN queries ───────────────────────────────────────────────
+
+    /**
+     * Revenue grouped by category. Uses a LEFT JOIN so all active categories
+     * appear even with zero revenue, making the chart always populated.
+     */
+    @Query("""
+        SELECT c.name AS categoryName,
+               COALESCE(SUM(oi.quantity * oi.unitPrice), 0.0) AS revenue
+        FROM categories c
+        LEFT JOIN products p ON p.categoryId = c.id
+        LEFT JOIN order_items oi ON oi.productId = p.id
+        LEFT JOIN orders o
+            ON o.orderId = oi.orderId
+           AND o.status = 'COMPLETED'
+           AND o.createdAt >= :startTime
+           AND o.createdAt <= :endTime
+        WHERE c.isActive = 1
+        GROUP BY c.id, c.name
+        ORDER BY revenue DESC
+    """)
+    suspend fun getCategoryRevenue(startTime: Long, endTime: Long): List<CategoryRevenueRow>
+
+    /** Top selling products ordered by revenue for a date range. */
+    @Query("""
+        SELECT oi.productName,
+               SUM(oi.quantity)                  AS quantitySold,
+               SUM(oi.quantity * oi.unitPrice)   AS revenue
+        FROM order_items oi
+        INNER JOIN orders o ON o.orderId = oi.orderId
+        WHERE o.status = 'COMPLETED'
+          AND o.createdAt >= :startTime
+          AND o.createdAt <= :endTime
+        GROUP BY oi.productName
+        ORDER BY revenue DESC
+        LIMIT 10
+    """)
+    suspend fun getTopProducts(startTime: Long, endTime: Long): List<TopProductRow>
 }

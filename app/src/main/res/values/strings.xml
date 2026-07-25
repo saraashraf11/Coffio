@@ -115,6 +115,12 @@
     <string name="percent_of_total">%d%% of total</string>
     <string name="sold_count">%d sold</string>
     <string name="no_data">No data available</string>
+    <string name="no_data_subtitle">Complete some orders to see your analytics here</string>
+    <string name="hourly_breakdown">Hourly Orders</string>
+    <string name="peak_hour">Peak hour: %dh with %d orders</string>
+    <string name="period_daily">Daily</string>
+    <string name="period_weekly">Weekly</string>
+    <string name="period_monthly">Monthly</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
