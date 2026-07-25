@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 data class DashboardUiState(
@@ -53,17 +54,30 @@ class DashboardViewModel @Inject constructor(
                     _uiState.update { it.copy(userRole = role) }
                 }
             }
-            // Load orders
+            // Load orders reactively from Room
             launch {
                 orderRepository.getAllOrders().collect { orders ->
+                    val startOfDay = Calendar.getInstance().apply {
+                        set(Calendar.HOUR_OF_DAY, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }.timeInMillis
+
+                    // Consider orders created today
+                    val todayOrdersList = orders.filter { it.createdAt >= startOfDay }
+                    // Valid/Active orders
                     val activeCount = orders.count { it.status.name in listOf("PENDING", "IN_PROGRESS", "READY") }
-                    val todayRevenue = orders.filter { it.status.name == "COMPLETED" }.sumOf { it.total }
+                    // Revenue from non-cancelled/completed/valid orders of today
+                    val todayValidOrders = todayOrdersList.filter { it.status.name in listOf("COMPLETED", "READY", "IN_PROGRESS", "PENDING") }
+                    val todayRevenue = todayValidOrders.sumOf { it.total }
+
                     _uiState.update {
                         it.copy(
                             recentOrders = orders.take(5),
                             activeOrders = activeCount,
                             todayRevenue = todayRevenue,
-                            todayOrders = orders.size,
+                            todayOrders = todayValidOrders.size,
                             isLoading = false
                         )
                     }
