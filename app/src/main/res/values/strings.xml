@@ -87,6 +87,7 @@
     <string name="occupied">Occupied</string>
     <string name="reserved">Reserved</string>
     <string name="cleaning">Cleaning</string>
+    <string name="select_table_required">Select Table (Required)</string>
 
     <!-- Customers -->
     <string name="customers">Customers</string>

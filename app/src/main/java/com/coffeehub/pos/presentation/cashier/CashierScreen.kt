@@ -1,5 +1,6 @@
 package com.coffeehub.pos.presentation.cashier
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -35,6 +36,7 @@ fun CashierScreen(
     windowSizeClass: WindowSizeClass,
     onNavigateToPayment: () -> Unit,
     onNavigateBack: () -> Unit,
+    onNavigateToTables: () -> Unit,
     cashierViewModel: CashierViewModel = hiltViewModel(),
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
@@ -95,7 +97,7 @@ fun CashierScreen(
                         onSearch = cashierViewModel::onSearch, onAddToCart = handleAddToCart, columns = 2)
                     1 -> CartPanel(cartState = cartState, onIncrease = cartViewModel::increaseQuantity,
                         onDecrease = cartViewModel::decreaseQuantity, onRemove = cartViewModel::removeItem,
-                        onClear = cartViewModel::clearCart, onCheckout = onNavigateToPayment)
+                        onClear = cartViewModel::clearCart, onCheckout = onNavigateToPayment, onNavigateToTables = onNavigateToTables)
                 }
             }
         } else {
@@ -109,7 +111,7 @@ fun CashierScreen(
                 Box(modifier = Modifier.weight(1f).fillMaxHeight()) {
                     CartPanel(cartState = cartState, onIncrease = cartViewModel::increaseQuantity,
                         onDecrease = cartViewModel::decreaseQuantity, onRemove = cartViewModel::removeItem,
-                        onClear = cartViewModel::clearCart, onCheckout = onNavigateToPayment)
+                        onClear = cartViewModel::clearCart, onCheckout = onNavigateToPayment, onNavigateToTables = onNavigateToTables)
                 }
             }
         }
@@ -161,8 +163,13 @@ private fun CartPanel(
     onDecrease: (String) -> Unit,
     onRemove: (String) -> Unit,
     onClear: () -> Unit,
-    onCheckout: () -> Unit
+    onCheckout: () -> Unit,
+    onNavigateToTables: () -> Unit
 ) {
+    val isDineIn = cartState.orderType == OrderType.DINE_IN
+    val hasSelectedTable = cartState.selectedTableId != null
+    val canCheckout = cartState.cartItems.isNotEmpty() && !cartState.isPlacingOrder && (!isDineIn || hasSelectedTable)
+
     Column(modifier = Modifier.fillMaxSize().padding(12.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.current_order), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
@@ -213,9 +220,46 @@ private fun CartPanel(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        if (isDineIn) {
+            Card(
+                modifier = Modifier.fillMaxWidth().clickable { onNavigateToTables() },
+                colors = CardDefaults.cardColors(
+                    containerColor = if (hasSelectedTable) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.errorContainer
+                )
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.TableBar, 
+                            null, 
+                            tint = if (hasSelectedTable) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = if (hasSelectedTable) stringResource(R.string.table_number, cartState.selectedTableNumber ?: 0) else stringResource(R.string.select_table_required),
+                            color = if (hasSelectedTable) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Icon(
+                        Icons.Default.ArrowForwardIos,
+                        null,
+                        modifier = Modifier.size(16.dp),
+                        tint = if (hasSelectedTable) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+
         Button(onClick = onCheckout, modifier = Modifier.fillMaxWidth().height(56.dp),
-            enabled = cartState.cartItems.isNotEmpty() && !cartState.isPlacingOrder, shape = MaterialTheme.shapes.medium) {
+            enabled = canCheckout, shape = MaterialTheme.shapes.medium) {
             if (cartState.isPlacingOrder) {
                 CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary)
             } else {

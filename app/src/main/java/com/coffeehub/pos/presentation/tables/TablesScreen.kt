@@ -34,7 +34,7 @@ import com.coffeehub.pos.presentation.theme.TableReserved
 @Composable
 fun TablesScreen(
     windowSizeClass: WindowSizeClass,
-    onTableSelected: (Int) -> Unit,
+    onTableSelected: (Int, Int) -> Unit,
     onNavigateBack: () -> Unit,
     viewModel: TablesViewModel = hiltViewModel()
 ) {
@@ -69,7 +69,7 @@ fun TablesScreen(
                     items(uiState.tables) { table ->
                         TableCell(table = table, isSelected = uiState.selectedTableId == table.id, onClick = {
                             viewModel.selectTable(table.id)
-                            if (table.status == TableStatus.AVAILABLE) onTableSelected(table.id)
+                            if (table.status == TableStatus.AVAILABLE) onTableSelected(table.id, table.tableNumber)
                         })
                     }
                 }

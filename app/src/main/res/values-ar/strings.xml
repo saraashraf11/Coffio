@@ -86,7 +86,8 @@
     <string name="available">متاحة</string>
     <string name="occupied">مشغولة</string>
     <string name="reserved">محجوزة</string>
-    <string name="cleaning">قيد التنظيف</string>
+    <string name="cleaning">جارٍ التنظيف</string>
+    <string name="select_table_required">اختر طاولة (إلزامي)</string>
 
     <!-- Customers -->
     <string name="customers">العملاء</string>
