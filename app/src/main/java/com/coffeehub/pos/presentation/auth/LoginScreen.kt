@@ -50,7 +50,7 @@ fun LoginScreen(
         Box(modifier = Modifier.size(300.dp).offset(x = (-80).dp, y = (-80).dp).clip(CircleShape).background(EspressoBrown.copy(alpha = 0.15f)))
         Box(modifier = Modifier.size(200.dp).align(Alignment.BottomEnd).offset(x = 60.dp, y = 60.dp).clip(CircleShape).background(LatteCaramel.copy(alpha = 0.1f)))
 
-        Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(32.dp),
+        Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(32.dp).imePadding(),
             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             Box(modifier = Modifier.size(100.dp).clip(MaterialTheme.shapes.extraLarge).background(Brush.linearGradient(listOf(EspressoBrown, LatteCaramel))), contentAlignment = Alignment.Center) {
                 Icon(Icons.Default.LocalCafe, contentDescription = null, modifier = Modifier.size(60.dp), tint = CreamWhite)
@@ -84,7 +84,13 @@ fun LoginScreen(
                         leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                         trailingIcon = {
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                Icon(if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, contentDescription = stringResource(R.string.toggle_password))
+                                Icon(
+                                    imageVector = if (passwordVisible)
+                                        Icons.Default.Visibility
+                                    else
+                                        Icons.Default.VisibilityOff,
+                                    contentDescription = stringResource(R.string.toggle_password)
+                                )
                             }
                         },
                         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -120,7 +126,7 @@ fun LoginScreen(
                 }
             }
             Spacer(modifier = Modifier.height(24.dp))
-            Text(text = stringResource(R.string.demo_hint), style = MaterialTheme.typography.bodySmall, color = WarmGray)
+
         }
     }
 }

@@ -61,7 +61,10 @@ fun StatCard(
                         Text(
                             text = title,
                             style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = if (gradient.isNotEmpty())
+                                Color.White.copy(alpha = 0.9f)
+                            else
+                                MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
