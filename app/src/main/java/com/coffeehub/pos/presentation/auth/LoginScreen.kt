@@ -56,7 +56,7 @@ fun LoginScreen(
                 Icon(Icons.Default.LocalCafe, contentDescription = null, modifier = Modifier.size(60.dp), tint = CreamWhite)
             }
             Spacer(modifier = Modifier.height(24.dp))
-            Text(text = "BrewPoint", style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Bold, color = CreamWhite)
+            Text(text = stringResource(R.string.app_name), style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Bold, color = CreamWhite)
             Text(text = stringResource(R.string.app_subtitle), style = MaterialTheme.typography.titleMedium, color = WarmGray)
             Spacer(modifier = Modifier.height(48.dp))
 
